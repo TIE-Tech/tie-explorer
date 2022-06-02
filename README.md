@@ -1,33 +1,34 @@
-##TieChain 浏览器
+## tie-explorer
 
-`免责声明: 仅供技术交流学习,不适用于商业用途`
+`Disclaimer: only for technical exchange learning, not for commercial use`
 
-本代码分前，后台. 所具的功能是针对 Polygon-edge 区块链的,
-与 Ethereum 链的功能不完全一致.
+This code is divided into frontend, backend. All features are for the Polygon-Edge blockchain,
+Not exactly what Ethereum chains do.
 
-后台代码 使用 `Beego` 框架开发. 
-前台代码 使用 `Vue` 开发.
+backend code used `Beego` framework. 
 
-数据缓存采用 `Postgresql` 数据库.
+frontend code used  `Vue` framework.
 
-浏览器后台功能:
+data is stored by `Postgresql`.
 
-- 解析区块信息
-- 解析交易信息 (解析交易Logs,细化交易详情)
-- 统计用户信息
-- 统计每日交易数据
-- 统计链基本信息
+backend features:
 
-浏览器页面功能:
+- Parse block information
+- Parse transaction information & logs
+- Collecting addresses Information
+- Collect daily transaction data
+- Collect basic information of chain
 
-- 首页
-- 区块列表 & 区块详情
-- 交易列表 & 交易详情
-- 账户地址信息
+frontend features:
 
-###运行
+- Homepage
+- block list & block details
+- transaction list & transaction details
+- account details
 
-#### 启动数据采集功能
+### Run
+
+#### run backend
 
 ```shell
 go run main.go
@@ -36,7 +37,7 @@ go build -o indexer main.go
 ./indexer
 ```
 
-#### 启动浏览器页面
+#### run frontend
 ```shell
 cd web
 npm install
@@ -44,24 +45,29 @@ npm run serve
 ```
 
 
-### Docker 运行
+### Docker
 
-#### 手动安装方式
-第1步: docker 安装 并运行 Postgres 数据库
+#### Docker-compose (recommended)
+```shell
+docker-compose up
+```
+
+#### install manually
+step 1
 ```shell
 docker pull postgres:13.6
 
 docker run --name postgres -e POSTGRES_PASSWORD='' -e POSTGRES_USER='postgres' -e POSTGRES_HOST_AUTH_METHOD='trust' -p 5432:5432 -d postgres:13.6
 ```
 
-第2步: 创建数据库 `(可跳过)`
+step 2 `(optional)`
 ```shell
 docker exec -it postgres /bin/bash
 psql -U postgres
 CREATE DATABASE explorer;
 ```
 
-第3步: docker 安装 golang
+step 3
 ```shell
 #修改 conf/app.conf
 #将 Postgresql 数据库连接信息 调整为对应信息
@@ -71,15 +77,9 @@ docker build . -f docker/server/Dockerfile -t server
 docker run --name server -p 8081:8081 -d server
 ```
 
-第4步: docker 安装 Nginx
+step 4
 ```shell
 docker build . -f docker/web/Dockerfile -t web
 
 docker run --name web -p 8080:8080 -d
-```
-
-
-#### Docker-compose 方式
-```shell
-docker-compose up
 ```
