@@ -69,8 +69,7 @@ CREATE DATABASE explorer;
 
 step 3
 ```shell
-#修改 conf/app.conf
-#将 Postgresql 数据库连接信息 调整为对应信息
+# don't forget modify conf/app.conf
 
 docker build . -f docker/server/Dockerfile -t server
 
